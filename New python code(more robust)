@@ -1,0 +1,37 @@
+import re
+
+def is_password_set(password):
+    """Check if a password has been set.
+
+    Args:
+        password (str): Password to be checked.
+
+    Returns:
+        A tuple with two elements:
+        - A boolean indicating if the password meets the criteria.
+        - A list of strings describing the reasons why the password did not meet the criteria.
+    """
+    reasons = []
+    if not password:
+        reasons.append("Password is empty.")
+    if len(password) < 8:
+        reasons.append("Password must be at least 8 characters long.")
+    if not re.search(r'\d', password):
+        reasons.append("Password must contain at least one digit.")
+    if not re.search(r'[a-z]', password):
+        reasons.append("Password must contain at least one lowercase letter.")
+    if not re.search(r'[A-Z]', password):
+        reasons.append("Password must contain at least one uppercase letter.")
+    if not re.search(r'[!@#$%^&*()_+{}[\]:;.,<>?\\|`~\-=/]', password):
+        reasons.append("Password must contain at least one special character.")
+    return len(reasons) == 0, reasons
+
+password = input("Enter your password: ")
+is_valid, reasons = is_password_set(password)
+
+if is_valid:
+    print("Password is set.")
+else:
+    print("Password is not set or does not meet the criteria:")
+    for reason in reasons:
+        print("- " + reason)
